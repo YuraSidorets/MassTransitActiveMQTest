@@ -65,7 +65,7 @@ public class MassTransitActiveMQReconnectTest : IClassFixture<ActiveMqContainerF
         var requestClient = producerBus.CreateRequestClient<TestRequest>(new Uri("queue:TestCommand"), RequestTimeout.Default);
         var responseAction = async () => await requestClient.GetResponse<TestRequest>(testRequest, timeout: RequestTimeout.Default).ConfigureAwait(false);
 
-        await responseAction.Should().ThrowAsync<RequestTimeoutException>();
+        await responseAction.Should().NotThrowAsync<RequestTimeoutException>();
 
         await consumerApp.DisposeAsync();
         await producerApp.DisposeAsync();
